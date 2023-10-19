@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 14, 2022 at 04:55 AM
--- Server version: 10.4.19-MariaDB
--- PHP Version: 8.0.7
+-- Generation Time: Sep 20, 2023 at 01:06 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `bsms_db`
+-- Database: `catalina`
 --
 
 -- --------------------------------------------------------
@@ -42,31 +42,27 @@ CREATE TABLE `category_list` (
 --
 
 INSERT INTO `category_list` (`category_id`, `name`, `description`, `status`, `delete_flag`, `date_created`, `date_updated`) VALUES
-(1, 'Sample 101', 'This is a sample Category 101', 1, 0, '2022-02-14 09:16:23', '2022-02-14 09:18:40'),
-(2, 'Sample 102', 'This is a sample Category 102', 1, 0, '2022-02-14 09:19:04', NULL),
-(3, 'Sample 103', 'This is a sample Category 103', 1, 0, '2022-02-14 09:19:11', NULL),
-(4, 'Sample 104', 'This is a sample Category 104', 1, 0, '2022-02-14 09:19:18', NULL),
-(5, 'Sample 105', 'This is a sample Category 105', 1, 0, '2022-02-14 09:19:24', NULL),
-(6, 'Sample 106', 'This is a sample Category 106', 1, 0, '2022-02-14 09:19:30', NULL),
-(7, 'Sample 107', 'This is a sample Category 107', 1, 0, '2022-02-14 09:19:37', NULL),
-(8, 'Sample 108', 'This is a sample Category 108', 1, 0, '2022-02-14 09:19:43', NULL),
-(9, 'Sample 109', 'This is a sample Category 109', 1, 0, '2022-02-14 09:19:49', NULL),
-(10, 'Sample 110', 'This is a sample Category 110', 1, 0, '2022-02-14 09:19:55', NULL),
-(11, 'Sample 111', 'This is a sample Category 111', 0, 1, '2022-02-14 09:20:11', '2022-02-14 09:23:14');
+(1, 'Muffins', 'All types of muffins come under this category', 1, 0, '2022-02-14 09:16:23', '2023-07-12 15:07:05'),
+(2, 'Cupcakes', 'All types of cupcakes come under this category', 1, 0, '2022-02-14 09:19:04', '2023-07-12 15:06:40'),
+(3, 'Cookies', 'All types of cookies come under this category', 1, 0, '2022-02-14 09:19:11', '2023-07-12 15:07:44'),
+(4, 'Cheesecake', 'All types of cheesecakes come under this category', 1, 0, '2022-02-14 09:19:18', '2023-07-12 15:08:21'),
+(5, 'Bread', 'All types of bread comes under this category', 1, 0, '2022-02-14 09:19:24', '2023-07-12 15:08:53'),
+(12, 'Premium', 'One can add /remove products from this category', 1, 0, '2023-09-14 15:49:03', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `product_list`
+-- Table structure for table `productdb`
 --
 
 CREATE TABLE `product_list` (
-  `product_id` int(30) NOT NULL,
+  `id` int(30) NOT NULL,
   `product_code` text NOT NULL,
   `category_id` int(30) NOT NULL,
   `name` text NOT NULL,
   `description` text NOT NULL,
-  `price` double NOT NULL DEFAULT 0,
+  `cakeprice` double NOT NULL DEFAULT 0,
+  `image` varchar(100) DEFAULT NULL,
   `alert_restock` double NOT NULL DEFAULT 0,
   `status` tinyint(1) NOT NULL DEFAULT 1,
   `delete_flag` tinyint(1) NOT NULL DEFAULT 0,
@@ -78,13 +74,14 @@ CREATE TABLE `product_list` (
 -- Dumping data for table `product_list`
 --
 
-INSERT INTO `product_list` (`product_id`, `product_code`, `category_id`, `name`, `description`, `price`, `alert_restock`, `status`, `delete_flag`, `date_created`, `date_updated`) VALUES
-(1, '23141506', 1, 'Product 101', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 10, 20, 1, 0, '2022-02-14 09:42:00', '2022-02-14 11:52:16'),
-(2, '123456', 2, 'Product 102', 'Cras eget maximus nunc, id hendrerit dui. Donec auctor mauris ac augue aliquam gravida vel sit amet libero. Proin tempor eu augue id aliquet.', 15, 20, 1, 0, '2022-02-14 09:42:00', '2022-02-14 11:52:23'),
-(3, '231415', 2, 'Product 103', 'Vivamus commodo purus a dolor pretium interdum. Pellentesque bibendum lacus sed tortor mollis varius. Etiam sed odio felis. Nam nec erat eu metus feugiat aliquam. Aenean id semper ex. Nulla nec euismod tellus. Maecenas pellentesque ipsum sit amet augue scelerisque ultrices.', 45, 50, 1, 0, '2022-02-14 09:42:00', '2022-02-14 11:52:32'),
-(4, '123654789', 3, 'Product 104', 'Sed sit amet pharetra metus, sed posuere nibh. Nam at sapien enim. Pellentesque pretium scelerisque turpis, in rhoncus sapien tempor sed.', 20, 30, 1, 0, '2022-02-14 09:42:00', '2022-02-14 11:52:43'),
-(5, '987545', 3, 'Product 105', 'Curabitur imperdiet cursus auctor. Donec tristique nulla non porta lobortis. Nulla malesuada sapien lacus, nec rhoncus leo porta vitae. Pellentesque semper rhoncus tellus a pulvinar. Morbi nec tortor ut lorem laoreet vulputate', 50, 30, 1, 0, '2022-02-14 09:46:59', '2022-02-14 11:52:50'),
-(6, '5489879', 6, 'Product 105', 'Fusce dui augue, porttitor at est a, commodo lacinia mauris. Etiam quis nulla maximus, fermentum tortor quis, suscipit neque. Curabitur leo ligula, tristique eu placerat sit amet, euismod non ligula.', 50, 0, 1, 1, '2022-02-14 09:47:22', '2022-02-14 09:48:32');
+INSERT INTO `product_list` (`id`, `product_code`, `category_id`, `name`, `description`, `cakeprice`, `image`, `alert_restock`, `status`, `delete_flag`, `date_created`, `date_updated`) VALUES
+(1, '101', 1, 'Chocolate muffins with Chocolate chips', 'Moist and delicious chocolate muffins sprinkled with chocolate chips.', 60, 'images/products.png', 20, 1, 0, '2022-02-14 09:42:00', '2023-09-14 15:20:08'),
+(2, '201', 2, 'Chocolate cupcakes with buttercream frosting', 'My best seller!  \r\nMoist chocolate cupcakes with buttercream frosting.', 73, 'images/products(4).png', 20, 1, 0, '2022-02-14 09:42:00', '2023-09-14 15:22:00'),
+(3, '102', 1, 'Carrot Muffin With Walnut', 'A healthy and delicious carrot muffin topped with roasted walnut.', 68, 'images/products(3).png', 50, 1, 0, '2022-02-14 09:42:00', '2023-09-14 15:22:23'),
+(4, '301', 3, 'Chocolate Chip Cookies', 'Chewy cookies.', 178, 'images/products(1).png', 30, 1, 0, '2022-02-14 09:42:00', '2023-09-14 15:22:50'),
+(5, '401', 4, 'Blueberry Cheesecake', 'Luscious, silky-smooth cheesecake with blueberries!', 1200, 'images/products (2).png', 30, 1, 0, '2022-02-14 09:46:59', '2023-09-14 15:23:08'),
+(7, '501', 5, 'Banana Bread Loaf', 'Moist and classic banana bread.', 150, 'images/products(5).png', 0, 1, 0, '2023-07-12 15:17:10', '2023-09-14 15:23:32'),
+(8, '601', 2, 'Strawberry cakes', '', 60, NULL, 0, 1, 0, '2023-07-24 12:16:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -94,7 +91,7 @@ INSERT INTO `product_list` (`product_id`, `product_code`, `category_id`, `name`,
 
 CREATE TABLE `stock_list` (
   `stock_id` int(30) NOT NULL,
-  `product_id` int(30) NOT NULL,
+  `id` int(30) NOT NULL,
   `quantity` double NOT NULL DEFAULT 0,
   `expiry_date` datetime NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT current_timestamp()
@@ -104,7 +101,7 @@ CREATE TABLE `stock_list` (
 -- Dumping data for table `stock_list`
 --
 
-INSERT INTO `stock_list` (`stock_id`, `product_id`, `quantity`, `expiry_date`, `date_added`) VALUES
+INSERT INTO `stock_list` (`stock_id`, `id`, `quantity`, `expiry_date`, `date_added`) VALUES
 (1, 1, 20, '2022-02-17 00:00:00', '2022-02-14 02:04:29'),
 (2, 2, 200, '2022-02-18 00:00:00', '2022-02-14 02:05:18'),
 (3, 3, 350, '2022-02-18 00:00:00', '2022-02-14 02:05:33'),
@@ -119,9 +116,9 @@ INSERT INTO `stock_list` (`stock_id`, `product_id`, `quantity`, `expiry_date`, `
 
 CREATE TABLE `transaction_items` (
   `transaction_id` int(30) NOT NULL,
-  `product_id` int(30) NOT NULL,
+  `id` int(30) NOT NULL,
   `quantity` double NOT NULL DEFAULT 0,
-  `price` double NOT NULL DEFAULT 0,
+  `cakeprice` double NOT NULL DEFAULT 0,
   `date_added` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -129,7 +126,7 @@ CREATE TABLE `transaction_items` (
 -- Dumping data for table `transaction_items`
 --
 
-INSERT INTO `transaction_items` (`transaction_id`, `product_id`, `quantity`, `price`, `date_added`) VALUES
+INSERT INTO `transaction_items` (`transaction_id`, `id`, `quantity`, `cakeprice`, `date_added`) VALUES
 (1, 1, 4, 10, '2022-02-14 02:12:39'),
 (1, 2, 2, 15, '2022-02-14 02:12:39'),
 (1, 4, 2, 20, '2022-02-14 02:12:39'),
@@ -172,6 +169,27 @@ INSERT INTO `transaction_list` (`transaction_id`, `receipt_no`, `total`, `tender
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
+  `Name` varchar(100) DEFAULT NULL,
+  `Email` varchar(100) DEFAULT NULL,
+  `PhoneNumber` int(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `Name`, `Email`, `PhoneNumber`) VALUES
+(1, 'Vidhya', 'ram@gmail.com', 1234556788),
+(2, 'Test', 'test@gmail.com', 1234556788);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user_list`
 --
 
@@ -191,8 +209,9 @@ CREATE TABLE `user_list` (
 
 INSERT INTO `user_list` (`user_id`, `fullname`, `username`, `password`, `type`, `status`, `date_created`) VALUES
 (1, 'Administrator', 'admin', '0192023a7bbd73250516f069df18b500', 1, 1, '2022-02-14 00:44:30'),
-(2, 'Claire Blake', 'cblake', 'cd74fae0a3adf459f73bbf187607ccea', 0, 1, '2022-02-14 02:29:23'),
-(3, 'Mark Cooper', 'mcooper', '0c4635c5af0f173c26b0d85b6c9b398b', 1, 1, '2022-02-14 02:29:58');
+(2, 'Vasudha', 'vasudha', 'cd74fae0a3adf459f73bbf187607ccea', 1, 1, '2022-02-14 02:29:23'),
+(5, 'Srividhya', 'vidhya', '948b0bad18fed1d3a89ceba3550bd512', 0, 1, '2023-07-12 10:00:21'),
+(6, 'Dexter', 'dexter', 'a125a6b2a71e23adc002ac7fbe1a1042', 1, 1, '2023-07-12 10:01:23');
 
 --
 -- Indexes for dumped tables
@@ -205,10 +224,16 @@ ALTER TABLE `category_list`
   ADD PRIMARY KEY (`category_id`);
 
 --
+-- Indexes for table `productdb`
+--
+ALTER TABLE `productdb`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `product_list`
 --
 ALTER TABLE `product_list`
-  ADD PRIMARY KEY (`product_id`),
+  ADD PRIMARY KEY (`id`),
   ADD KEY `category_id` (`category_id`);
 
 --
@@ -216,13 +241,13 @@ ALTER TABLE `product_list`
 --
 ALTER TABLE `stock_list`
   ADD PRIMARY KEY (`stock_id`),
-  ADD KEY `product_id` (`product_id`);
+  ADD KEY `id` (`id`);
 
 --
 -- Indexes for table `transaction_items`
 --
 ALTER TABLE `transaction_items`
-  ADD KEY `product_id` (`product_id`),
+  ADD KEY `id` (`id`),
   ADD KEY `transaction_id` (`transaction_id`);
 
 --
@@ -231,6 +256,12 @@ ALTER TABLE `transaction_items`
 ALTER TABLE `transaction_list`
   ADD PRIMARY KEY (`transaction_id`),
   ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `user_list`
@@ -246,13 +277,19 @@ ALTER TABLE `user_list`
 -- AUTO_INCREMENT for table `category_list`
 --
 ALTER TABLE `category_list`
-  MODIFY `category_id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `category_id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `productdb`
+--
+ALTER TABLE `productdb`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `product_list`
 --
 ALTER TABLE `product_list`
-  MODIFY `product_id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `stock_list`
@@ -267,10 +304,16 @@ ALTER TABLE `transaction_list`
   MODIFY `transaction_id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `user_list`
 --
 ALTER TABLE `user_list`
-  MODIFY `user_id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
@@ -286,13 +329,13 @@ ALTER TABLE `product_list`
 -- Constraints for table `stock_list`
 --
 ALTER TABLE `stock_list`
-  ADD CONSTRAINT `stock_list_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product_list` (`product_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `stock_list_ibfk_2` FOREIGN KEY (`id`) REFERENCES `product_list` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `transaction_items`
 --
 ALTER TABLE `transaction_items`
-  ADD CONSTRAINT `transaction_items_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product_list` (`product_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `transaction_items_ibfk_1` FOREIGN KEY (`id`) REFERENCES `product_list` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `transaction_items_ibfk_2` FOREIGN KEY (`transaction_id`) REFERENCES `transaction_list` (`transaction_id`) ON DELETE CASCADE;
 
 --

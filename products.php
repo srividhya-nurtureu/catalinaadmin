@@ -1,4 +1,5 @@
 
+
 <div class="card rounded-0 shadow">
     <div class="card-header d-flex justify-content-between">
         <h3 class="card-title">Product List</h3>
@@ -11,18 +12,20 @@
             <colgroup>
                 <col width="5%">
                 <col width="10%">
-                <col width="15%">
-                <col width="30%">
-                <col width="10%">
-                <col width="5%">
                 <col width="10%">
                 <col width="15%">
+                <col width="25%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
             </colgroup>
             <thead>
                 <tr>
                     <th class="text-center p-0">#</th>
                     <th class="text-center p-0">Code</th>
                     <th class="text-center p-0">Category</th>
+                    <th class="text-center p-0">Image</th>
                     <th class="text-center p-0">Product</th>
                     <th class="text-center p-0">Price</th>
                     <th class="text-center p-0">Alert</th>
@@ -42,10 +45,13 @@
                     <td class="py-0 px-1"><?php echo $row['product_code'] ?></td>
                     <td class="py-0 px-1"><?php echo $row['cname'] ?></td>
                     <td class="py-0 px-1">
+                    <img src="<?php echo  'Catalina-dropdown/images ';?>"  alt="Cake" class="img-fluid">
+                   </td>
+                   <td class="py-0 px-1">
                         <div class="fs-6 fw-bold truncate-1" title="<?php echo $row['name'] ?>"><?php echo $row['name'] ?></div>
                         <div class="fs-6 fw-light truncate-3" title="<?php echo $row['description'] ?>"><?php echo $row['description'] ?></div>
                     </td>
-                    <td class="py-0 px-1 text-end"><?php echo number_format($row['price']) ?></td>
+                    <td class="py-0 px-1 text-end"><?php echo number_format($row['cakeprice']) ?></td>
                     <td class="py-0 px-1 text-end"><?php echo number_format($row['alert_restock']) ?></td>
                     <td class="py-0 px-1 text-center">
                         <?php 
@@ -63,9 +69,9 @@
                             Action
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                            <li><a class="dropdown-item view_data" data-id = '<?php echo $row['product_id'] ?>' href="javascript:void(0)">View Details</a></li>
-                            <li><a class="dropdown-item edit_data" data-id = '<?php echo $row['product_id'] ?>' href="javascript:void(0)">Edit</a></li>
-                            <li><a class="dropdown-item delete_data" data-id = '<?php echo $row['product_id'] ?>' data-name = '<?php echo $row['product_code']." - ".$row['name'] ?>' href="javascript:void(0)">Delete</a></li>
+                            <li><a class="dropdown-item view_data" data-id = '<?php echo $row['id'] ?>' href="javascript:void(0)">View Details</a></li>
+                            <li><a class="dropdown-item edit_data" data-id = '<?php echo $row['id'] ?>' href="javascript:void(0)">Edit</a></li>
+                            <li><a class="dropdown-item delete_data" data-id = '<?php echo $row['id'] ?>' data-name = '<?php echo $row['product_code']." - ".$row['name'] ?>' href="javascript:void(0)">Delete</a></li>
                             </ul>
                         </div>
                     </td>
@@ -120,3 +126,5 @@
         })
     }
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>

@@ -28,7 +28,7 @@
             </thead>
             <tbody>
                 <?php 
-                $sql = "SELECT s.*,p.name as pname,p.product_code FROM `stock_list` s inner join `product_list` p on s.product_id = p.product_id where p.delete_flag = 0 order by unix_timestamp(s.date_added) desc";
+                $sql = "SELECT s.*,p.name as pname,p.product_code FROM `stock_list` s inner join `product_list` p on s.id = p.id where p.delete_flag = 0 order by unix_timestamp(s.date_added) desc";
                 $qry = $conn->query($sql);
                 $i = 1;
                     while($row = $qry->fetch_assoc()):

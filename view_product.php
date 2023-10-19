@@ -1,7 +1,7 @@
 <?php
 require_once("DBConnection.php");
 if(isset($_GET['id'])){
-$qry = $conn->query("SELECT p.*,c.name as cname FROM `product_list` p inner join `category_list` c on p.category_id = c.category_id where p.product_id = '{$_GET['id']}'");
+$qry = $conn->query("SELECT p.*,c.name as cname FROM `product_list` p inner join `category_list` c on p.category_id = c.category_id where p.id = '{$_GET['id']}'");
     foreach($qry->fetch_array() as $k => $v){
         $$k = $v;
     }
@@ -27,12 +27,16 @@ $qry = $conn->query("SELECT p.*,c.name as cname FROM `product_list` p inner join
             <div class="fs-5 ps-4"><?php echo isset($name) ? $name : '' ?></div>
         </div>
         <div class="w-100 mb-1">
+            <div class="fs-6"><b>Image:</b></div>
+            <div class="fs-5 ps-4"><?php echo isset($image) ? $image : '' ?></div>
+        </div>
+        <div class="w-100 mb-1">
             <div class="fs-6"><b>Description:</b></div>
             <div class="fs-6 ps-4"><?php echo isset($description) ? $description : '' ?></div>
         </div>
         <div class="w-100 mb-1">
             <div class="fs-6"><b>Price:</b></div>
-            <div class="fs-5 ps-4"><?php echo isset($price) ? number_format($price,2) : '' ?></div>
+            <div class="fs-5 ps-4"><?php echo isset($cakeprice) ? number_format($cakeprice,2) : '' ?></div>
         </div>
         <div class="w-100 mb-1">
             <div class="fs-6"><b>Status:</b></div>

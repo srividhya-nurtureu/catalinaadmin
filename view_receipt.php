@@ -1,13 +1,23 @@
 <?php
 session_start();
 require_once("DBConnection.php");
-if(isset($_GET['id'])){
-$qry = $conn->query("SELECT * FROM `transaction_list` where transaction_id = '{$_GET['id']}'");
-    foreach($qry->fetch_array() as $k => $v){
-        $$k = $v;
+if (isset($_GET['id'])) {
+    $qry = $conn->query("SELECT * FROM `transaction_list` WHERE transaction_id = '{$_GET['id']}'");
+    if ($qry) {
+        if ($qry->num_rows > 0) {
+            $row = $qry->fetch_assoc();
+            foreach ($row as $k => $v) {
+                $$k = $v;
+            }
+        } else {
+            echo "No data found for the specified ID.";
+        }
+    } else {
+        echo "Error executing the query: " . $conn->error;
     }
 }
 ?>
+
 <style>
     #uni_modal .modal-footer{
         display:none !important;
@@ -16,7 +26,7 @@ $qry = $conn->query("SELECT * FROM `transaction_list` where transaction_id = '{$
 <div class="container-fluid">
     <div id="outprint_receipt">
         <div class="text-center fw-bold lh-1">
-            <span>Bakery Shop Management System</span><br>
+            <span>Catalina</span><br>
             <small>Receipt</small>
         </div>
         <div class="fs-6 fs-light d-flex w-100 mb-1">
@@ -29,35 +39,33 @@ $qry = $conn->query("SELECT * FROM `transaction_list` where transaction_id = '{$
         </div>
         <table class="table table-striped">
             <colgroup>
-                <col width="15%">
                 <col width="65%">
+                <col width="15%">
                 <col width="20%">
             </colgroup>  
             <thead>
             <tr class="bg-dark bg-opacity-75 text-light">
-                <th class="py-0 px-1">QTY</th>
-                <th class="py-0 px-1">Product</th>
+                <th class="py-0 px-1">Cake Name</th>
+                <th class="py-0 px-1">Quantity</th>
                 <th class="py-0 px-1">Amount</th>
             </tr>
             </thead>
             <tbody>
-                <?php 
-                $items = $conn->query("SELECT i.*, p.name as pname,p.product_code FROM `transaction_items` i inner join product_list p on i.product_id = p.product_id where `transaction_id` = '{$transaction_id}'");
-                while($row=$items->fetch_assoc()):
-                ?>
-                <tr>
-                    <td class="px-1 py-0 align-middle"><?php echo $row['quantity'] ?></td>
-                    <td class="px-1 py-0 align-middle">
-                        <div class="fw light lh-1">
-                            <small><?php echo $row['product_code'] ?></small><br>
-                            <small><?php echo $row['pname'] ?></small>
-                            <small>(<?php echo format_num($row['price']) ?>)</small>
-                        </div>
-                    </td>
-                    <td class="px-1 py-0 align-middle text-end"><?php echo format_num($row['price'] * $row['quantity']) ?></td>
-                </tr>
-                <?php endwhile; ?>
-            </tbody>
+           
+           <?php
+        $items = $conn->query("SELECT i.*, p.name as pname, p.cakeprice, i.quantity * p.cakeprice as amount FROM `transaction_items` i INNER JOIN product_list p ON i.id = p.id WHERE `transaction_id` = '{$transaction_id}'");
+
+        while ($row = $items->fetch_assoc()):
+
+?>
+  <tr>
+    <td><?php echo $row['name']; ?></td>
+    <td><?php echo $row['quantity']; ?></td>
+    <td><?php echo $row['quantity'] * $row['cakeprice']; ?></td>
+</tr>
+
+<?php endwhile; ?>
+</tbody>
             <tfoot>
                 <tr>
                     <th class="px-1 py-0" colspan="2">Total</th>

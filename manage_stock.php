@@ -16,19 +16,19 @@ $qry = $conn->query("SELECT * FROM `stock_list` where stock_id = '{$_GET['id']}'
                 <div class="col-md-12">
                     <?php if(!isset($_GET['pid'])): ?>
                     <div class="form-group">
-                        <label for="product_id" class="control-label">Product</label>
-                        <select name="product_id" id="product_id" class="form-select form-select-sm rounded-0 select2" required >
-                            <option <?php echo (!isset($product_id)) ? 'selected' : '' ?> disabled>Please Select Here</option>
+                        <label for="id" class="control-label">Product</label>
+                        <select name="id" id="id" class="form-select form-select-sm rounded-0 select2" required >
+                            <option <?php echo (!isset($id)) ? 'selected' : '' ?> disabled>Please Select Here</option>
                             <?php
                             $prod_qry = $conn->query("SELECT * FROM product_list where `status` = 1 and delete_flag = 0  order by `name` asc");
                             while($row= $prod_qry->fetch_assoc()):
                             ?>
-                                <option value="<?php echo $row['product_id'] ?>" <?php echo ((isset($product_id) && $product_id == $row['product_id']) || (isset($_GET['pid']) && $_GET['pid'] == $row['product_id']) ) ? 'selected' : '' ?>><?php echo $row['name'].'-'.$row['product_code'] ?></option>
+                                <option value="<?php echo $row['id'] ?>" <?php echo ((isset($id) && $id == $row['id']) || (isset($_GET['pid']) && $_GET['pid'] == $row['id']) ) ? 'selected' : '' ?>><?php echo $row['name'].'-'.$row['product_code'] ?></option>
                             <?php endwhile; ?>
                         </select>
                     </div>
                     <?php else: ?>
-                    <input type="hidden" name="product_id" value="<?php echo $_GET['pid'] ?>">
+                    <input type="hidden" name="id" value="<?php echo $_GET['pid'] ?>">
                     <?php endif; ?>
                     <div class="form-group">
                         <label for="quantity" class="control-label">Quantity</label>
@@ -78,7 +78,7 @@ $qry = $conn->query("SELECT * FROM `stock_list` where stock_id = '{$_GET['id']}'
                         $('#uni_modal').on('hide.bs.modal',function(){
                             location.reload()
                         })
-                        if("<?php echo isset($product_id) ?>" != 1){
+                        if("<?php echo isset($id) ?>" != 1){
                             _this.get(0).reset();
                             $('.select2').val('').trigger('change')
                         }

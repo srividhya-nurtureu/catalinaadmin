@@ -1,15 +1,20 @@
 <?php
 require_once("DBConnection.php");
 if(isset($_GET['id'])){
-$qry = $conn->query("SELECT * FROM `product_list` where product_id = '{$_GET['id']}'");
+$qry = $conn->query("SELECT * FROM `product_list` where id = '{$_GET['id']}'");
     foreach($qry->fetch_array() as $k => $v){
         $$k = $v;
     }
 }
+
+
 ?>
+
+
+
 <div class="container-fluid">
     <form action="" id="product-form">
-        <input type="hidden" name="id" value="<?php echo isset($product_id) ? $product_id : '' ?>">
+        <input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>">
         <div class="col-12">
             <div class="row">
                 <div class="col-md-6">
@@ -29,13 +34,18 @@ $qry = $conn->query("SELECT * FROM `product_list` where product_id = '{$_GET['id
                             <?php endwhile; ?>
                         </select>
                     </div>
+                   <!-- Add an input field for image upload -->
+                   <div class="form-group">
+                      <label for="image" class="control-label">Product Image</label>
+                      <input type="text" name="image" id="image" class="form-control form-control-sm rounded-0 value="<?php echo isset($image) ? $image : '' ?>">
+                   </div>
                     <div class="form-group">
                         <label for="name" class="control-label">Name</label>
                         <input type="text" name="name"  id="name" required class="form-control form-control-sm rounded-0" value="<?php echo isset($name) ? $name : '' ?>">
                     </div>
                     <div class="form-group">
-                        <label for="price" class="control-label">Price</label>
-                        <input type="number" step="any" name="price"  id="price" required class="form-control form-control-sm rounded-0 text-end" value="<?php echo isset($price) ? $price : '' ?>">
+                        <label for="cakeprice" class="control-label">Price</label>
+                        <input type="number" step="any" name="cakeprice"  id="cakeprice" required class="form-control form-control-sm rounded-0 text-end" value="<?php echo isset($cakeprice) ? $cakeprice : '' ?>">
                     </div>
                     <div class="form-group">
                         <label for="alert_restock" class="control-label">QTY Alert for Restock</label>
@@ -94,7 +104,7 @@ $qry = $conn->query("SELECT * FROM `product_list` where product_id = '{$_GET['id
                         $('#uni_modal').on('hide.bs.modal',function(){
                             location.reload()
                         })
-                        if("<?php echo isset($product_id) ?>" != 1){
+                        if("<?php echo isset($id) ?>" != 1){
                             _this.get(0).reset();
                             $('.select2').val('').trigger('change')
                         }

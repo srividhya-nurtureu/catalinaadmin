@@ -211,10 +211,10 @@ Class Actions extends DBConnection{
         if(empty($id)){
             $sql = "INSERT INTO `product_list` ({$cols_join}) VALUES ($vals_join)";
         }else{
-            $sql = "UPDATE `product_list` set {$data} where product_id = '{$id}'";
+            $sql = "UPDATE `product_list` set {$data} where id = '{$id}'";
         }
-        @$check= $this->db->query("SELECT COUNT(product_id) as count from `product_list` where `product_code` = '{$product_code}' and delete_flag = 0 ".($id > 0 ? " and product_id != '{$id}'" : ""))->fetch_array()['count'];
-        @$check2= $this->db->query("SELECT COUNT(product_id) as count from `product_list` where `name` = '{$name}' and delete_flag = 0 ".($id > 0 ? " and product_id != '{$id}'" : ""))->fetch_array()['count'];
+        @$check= $this->db->query("SELECT COUNT(id) as count from `product_list` where `product_code` = '{$product_code}' and delete_flag = 0 ".($id > 0 ? " and id != '{$id}'" : ""))->fetch_array()['count'];
+        @$check2= $this->db->query("SELECT COUNT(id) as count from `product_list` where `name` = '{$name}' and delete_flag = 0 ".($id > 0 ? " and id != '{$id}'" : ""))->fetch_array()['count'];
         if(@$check> 0){
             $resp['status'] ='failed';
             $resp['msg'] = 'Product Code already exists.';
@@ -243,7 +243,7 @@ Class Actions extends DBConnection{
     function delete_product(){
         extract($_POST);
 
-        @$update = $this->db->query("UPDATE `product_list` set delete_flag = 1 where product_id = '{$id}'");
+        @$update = $this->db->query("UPDATE `product_list` set delete_flag = 1 where id = '{$id}'");
         if($update){
             $resp['status']='success';
             $_SESSION['flashdata']['type'] = 'success';
@@ -360,13 +360,13 @@ Class Actions extends DBConnection{
             $last_id = $this->db->insert_id;
                 $tid = empty($id) ? $last_id : $id;
             $data ="";
-            foreach($product_id as $k => $v){
+            foreach($id as $k => $v){
                 if(!empty($data)) $data .=",";
-                $data .= "('{$tid}','{$v}','{$quantity[$k]}','{$price[$k]}')";
+                $data .= "('{$tid}','{$v}','{$quantity[$k]}','{$cakeprice[$k]}')";
             }
             if(!empty($data))
             $this->db->query("DELETE FROM transaction_items where transaction_id = '{$tid}'");
-            $sql = "INSERT INTO transaction_items (`transaction_id`,`product_id`,`quantity`,`price`) VALUES {$data}";
+            $sql = "INSERT INTO transaction_items (`transaction_id`,`id`,`quantity`,`cakeprice`) VALUES {$data}";
             $save = $this->db->query($sql);
             $resp['transaction_id'] = $tid;
         }else{
@@ -401,7 +401,7 @@ switch($a){
         echo $action->login();
     break;
     case 'customer_login':
-        echo $action->customer_login();
+        echo $action-> customer_login();
     break;
     case 'logout':
         echo $action->logout();

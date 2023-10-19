@@ -65,18 +65,18 @@
                                         $sql = "SELECT p.*,c.name as cname FROM `product_list` p inner join `category_list` c on p.category_id = c.category_id where p.status = 1 and p.delete_flag = 0 order by p.`name` asc";
                                         $qry = $conn->query($sql);
                                         while($row = $qry->fetch_assoc()):
-                                            $stock_in = $conn->query("SELECT sum(quantity) as `total` FROM `stock_list` where unix_timestamp(`expiry_date`) >= unix_timestamp(CURRENT_TIMESTAMP) and product_id = '{$row['product_id']}' ")->fetch_assoc()['total'];
-                                            $stock_out = $conn->query("SELECT sum(quantity) as `total` FROM `transaction_items` where product_id = '{$row['product_id']}' ")->fetch_assoc()['total'];
+                                            $stock_in = $conn->query("SELECT sum(quantity) as `total` FROM `stock_list` where unix_timestamp(`expiry_date`) >= unix_timestamp(CURRENT_TIMESTAMP) and id = '{$row['id']}' ")->fetch_assoc()['total'];
+                                            $stock_out = $conn->query("SELECT sum(quantity) as `total` FROM `transaction_items` where id = '{$row['id']}' ")->fetch_assoc()['total'];
                                             $stock_in = $stock_in > 0 ? $stock_in : 0;
                                             $stock_out = $stock_out > 0 ? $stock_out : 0;
                                             $qty = $stock_in-$stock_out;
                                             $qty = $qty > 0 ? $qty : 0;
                                         ?>
-                                        <tr class="item <?php echo $qty < 50? "bg-danger bg-opacity-25":'' ?>" data-id="<?php echo $row['product_id'] ?>">
+                                        <tr class="item <?php echo $qty < 50? "bg-danger bg-opacity-25":'' ?>" data-id="<?php echo $row['id'] ?>">
                                             <td class="td py-0 px-1 pname"><?php echo $row['cname'] ?></td>
                                             <td class="td py-0 px-1 pcode"><?php echo $row['product_code'] ?></td>
                                             <td class="td py-0 px-1 name"><?php echo $row['name'] ?></td>
-                                            <td class="td py-0 px-1 text-end price"><?php echo format_num($row['price']) ?></td>
+                                            <td class="td py-0 px-1 text-end price"><?php echo format_num($row['cakeprice']) ?></td>
                                             <td class="td py-0 px-1 text-end qty"><?php echo $qty ?></td>
                                         </tr>
                                         <?php endwhile; ?>
@@ -169,7 +169,7 @@
             var cname = _tr.find('.cname').text()
             var pcode = _tr.find('.pcode').text()
             var name = _tr.find('.name').text()
-            var price = _tr.find('.price').text().replace(/,/gi,'')
+            var cakeprice = _tr.find('.cakeprice').text().replace(/,/gi,'')
             var max = _tr.find('.qty').text()
             var qty = 1
             if($('#item-list tbody tr[data-id="'+pid+'"]').length > 0){
@@ -180,14 +180,14 @@
             var ntr  = $("<tr tabindex='0'>")
                 ntr.attr('data-id',pid)
                 ntr.append('<td class="py-0 px-1 align-middle"><input class="w-100 text-center" type="number" name="quantity[]" min="1" value="'+qty+'"/>'+
-                        '<input type="hidden" name="product_id[]" value="'+pid+'"/>'+
-                        '<input type="hidden" name="price[]" value="'+price+'"/>'+
+                        '<input type="hidden" name="id[]" value="'+pid+'"/>'+
+                        '<input type="hidden" name="cakeprice[]" value="'+cakeprice+'"/>'+
                 '</td>')
                 ntr.append('<td class="py-0 px-1 align-middle"><div class="fs-6 mb-0 lh-1">'+pcode+'<br/>'+
                             '<span class="name">'+name+'</span></br>'+
-                            '(<span class="price">'+parseFloat(price).toLocaleString('en-US',{style:'decimal',maximumFractionDigits:2})+'</span>)</div>'+
+                            '(<span class="cakeprice">'+parseFloat(cakeprice).toLocaleString('en-US',{style:'decimal',maximumFractionDigits:2})+'</span>)</div>'+
                             '</td>');
-            ntr.append('<td class="py-0 px-1 align-middle text-end total">'+parseFloat(price).toLocaleString('en-US',{style:'decimal',maximumFractionDigits:2})+'</td>')
+            ntr.append('<td class="py-0 px-1 align-middle text-end total">'+parseFloat(cakeprice).toLocaleString('en-US',{style:'decimal',maximumFractionDigits:2})+'</td>')
             $('#item-list tbody').append(ntr)
             compute(ntr)
             calculate_total()
@@ -251,8 +251,8 @@
     function compute(_this){
         _this.find('[name="quantity[]"]').on('input keydown',function(){
             var qty = $(this).val() > 0 ? $(this).val() : 0;
-            var price = _this.find('[name="price[]"]').val()
-            var _total = parseFloat(qty) * parseFloat(price)
+            var cakeprice = _this.find('[name="cakeprice[]"]').val()
+            var _total = parseFloat(qty) * parseFloat(cakeprice)
 
             _this.find('.total').text(parseFloat(_total).toLocaleString('en-US',{style:'decimal',maximumFractionDigits:2}))
             calculate_total()

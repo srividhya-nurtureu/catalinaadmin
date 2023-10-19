@@ -3,7 +3,7 @@
 Class DBConnection{
     protected $db;
     function __construct(){
-        $this->db= new mysqli('localhost','root','','bsms_db');
+        $this->db= new mysqli('localhost','root','','ctila_db');
         if(!$this->db){
             die('Database Connection Failes. Error: '.$this->db->error);
         }

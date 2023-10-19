@@ -1,16 +1,22 @@
 <?php
 session_start();
-if(!isset($_SESSION['user_id'])){
-    header("Location:./login.php");
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ./login.php");
     exit;
 }
+
 require_once('DBConnection.php');
+
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
-if($_SESSION['type'] != 1 && in_array($page,array('maintenance','products','stocks'))){
-    header("Location:./");
+
+// Check if 'type' is set in the $_SESSION array
+if (isset($_SESSION['type']) && is_array($_SESSION['type']) && isset($_SESSION['type'][0]) && $_SESSION['type'][0] != 1 && in_array($page, array('maintenance', 'products', 'stocks'))) {
+    header("Location: ./");
     exit;
 }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,6 +42,9 @@ if($_SESSION['type'] != 1 && in_array($page,array('maintenance','products','stoc
         html,body{
             height:100%;
             width:100%;
+        }
+        .navbar-dark.bg-dark {
+  background-color: #472468 !important;
         }
         @media screen{
             body{
@@ -139,13 +148,14 @@ if($_SESSION['type'] != 1 && in_array($page,array('maintenance','products','stoc
 </head>
 <body>
     <main>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-gradient" id="topNavBar">
+        
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark " id="topNavBar">
         <div class="container">
-            <img src='./images/Sample.png' alt ='logo'>
-            <a class="navbar-brand" href="./">
-            Catalina Bakes admin portal
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="./">
+        <img src='./images/logo.png' alt='logo' style="height: 100px; width: 250px;"></a>
+
+            
+                   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -170,6 +180,9 @@ if($_SESSION['type'] != 1 && in_array($page,array('maintenance','products','stoc
                     <?php if($_SESSION['type'] == 1): ?>
                     <li class="nav-item">
                         <a class="nav-link <?php echo ($page == 'users')? 'active' : '' ?>" aria-current="page" href="./?page=users">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./?page=orders">Orders</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="./?page=maintenance">Maintenance</a>

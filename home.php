@@ -1,3 +1,4 @@
+
 <div class="content py-3">
     <div class="card rounded-0 shadow">
         <div class="my-container">
@@ -36,7 +37,7 @@
                                         <div class="fs-5"><b>Products</b></div>
                                         <div class="fs-6 text-end fw-bold">
                                             <?php 
-                                            $product = $conn->query("SELECT count(product_id) as `count` FROM `product_list` where delete_flag = 0 ")->fetch_array()['count'];
+                                            $product = $conn->query("SELECT count(id) as `count` FROM `product_list` where delete_flag = 0 ")->fetch_array()['count'];
                                             echo $product > 0 ? format_num($product) : 0 ;
                                             ?>
                                         </div>
@@ -57,10 +58,10 @@
                                         <div class="fs-6 text-end fw-bold">
                                             <?php 
                                             $stock = 0;
-                                            $stock_query = $conn->query("SELECT * FROM `stock_list` where product_id in (SELECT product_id FROM `product_list` where delete_flag = 0) and unix_timestamp(CONCAT(`expiry_date`)) >= unix_timestamp(CURRENT_TIMESTAMP) ");
+                                            $stock_query = $conn->query("SELECT * FROM `stock_list` where id in (SELECT id FROM `product_list` where delete_flag = 0) and unix_timestamp(CONCAT(`expiry_date`)) >= unix_timestamp(CURRENT_TIMESTAMP) ");
                                             while($row = $stock_query->fetch_assoc()):
-                                                $stock_in = $conn->query("SELECT sum(quantity) as `total` FROM `stock_list` where unix_timestamp(CONCAT(`expiry_date`, ' 23:59:59')) >= unix_timestamp(CURRENT_TIMESTAMP) and product_id = '{$row['product_id']}' ")->fetch_array()['total'];
-                                                $stock_out = $conn->query("SELECT sum(quantity) as `total` FROM `transaction_items` where product_id = '{$row['product_id']}' ")->fetch_array()['total'];
+                                                $stock_in = $conn->query("SELECT sum(quantity) as `total` FROM `stock_list` where unix_timestamp(CONCAT(`expiry_date`, ' 23:59:59')) >= unix_timestamp(CURRENT_TIMESTAMP) and id = '{$row['id']}' ")->fetch_array()['total'];
+                                                $stock_out = $conn->query("SELECT sum(quantity) as `total` FROM `transaction_items` where id = '{$row['id']}' ")->fetch_array()['total'];
                                                 $stock_in = $stock_in > 0 ? $stock_in : 0;
                                                 $stock_out = $stock_out > 0 ? $stock_out : 0;
                                                 $qty = $stock_in-$stock_out;
@@ -121,8 +122,8 @@
                                     $sql = "SELECT p.*,c.name as cname FROM `product_list` p inner join `category_list` c on p.category_id = c.category_id where p.status = 1 and p.delete_flag = 0 order by `name` asc";
                                     $qry = $conn->query($sql);
                                     while($row = $qry->fetch_assoc()):
-                                        $stock_in = $conn->query("SELECT sum(quantity) as `total` FROM `stock_list` where unix_timestamp(CONCAT(`expiry_date`, ' 23:59:59')) >= unix_timestamp(CURRENT_TIMESTAMP) and product_id = '{$row['product_id']}' ")->fetch_array()['total'];
-                                        $stock_out = $conn->query("SELECT sum(quantity) as `total` FROM `transaction_items` where product_id = '{$row['product_id']}' ")->fetch_array()['total'];
+                                        $stock_in = $conn->query("SELECT sum(quantity) as `total` FROM `stock_list` where unix_timestamp(CONCAT(`expiry_date`, ' 23:59:59')) >= unix_timestamp(CURRENT_TIMESTAMP) and id = '{$row['id']}' ")->fetch_array()['total'];
+                                        $stock_out = $conn->query("SELECT sum(quantity) as `total` FROM `transaction_items` where id = '{$row['id']}' ")->fetch_array()['total'];
                                         $stock_in = $stock_in > 0 ? $stock_in : 0;
                                         $stock_out = $stock_out > 0 ? $stock_out : 0;
                                         $qty = $stock_in-$stock_out;
@@ -134,7 +135,7 @@
                                         <td class="td py-0 px-1"><?php echo $row['name'] ?></td>
                                         <td class="td py-0 px-1 text-end">
                                             <?php  if($_SESSION['type'] == 1): ?>
-                                            <?php echo $qty < $row['alert_restock']? "<a href='javascript:void(0)' class='restock me-1' data-pid = '".$row['product_id']."' data-name = '".$row['product_code'].' - '.$row['name']."'> Restock</a>":'' ?>
+                                            <?php echo $qty < $row['alert_restock']? "<a href='javascript:void(0)' class='restock me-1' data-pid = '".$row['id']."' data-name = '".$row['product_code'].' - '.$row['name']."'> Restock</a>":'' ?>
                                             <?php endif; ?>
                                             <?php echo $qty ?></td>
                                     </tr>
