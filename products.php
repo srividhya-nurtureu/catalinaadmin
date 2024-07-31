@@ -51,7 +51,10 @@
                         <div class="fs-6 fw-bold truncate-1" title="<?php echo $row['name'] ?>"><?php echo $row['name'] ?></div>
                         <div class="fs-6 fw-light truncate-3" title="<?php echo $row['description'] ?>"><?php echo $row['description'] ?></div>
                     </td>
-                    <td class="py-0 px-1 text-end"><?php echo number_format($row['cakeprice']) ?></td>
+                    <td class="py-0 px-1 text-end"><?php echo number_format((float)$row['cakeprice']) ?>
+                </td>
+<td class="py-0 px-1 text-end"><?php echo number_format((float)$row['alert_restock']) ?></td>
+
                     <td class="py-0 px-1 text-end"><?php echo number_format($row['alert_restock']) ?></td>
                     <td class="py-0 px-1 text-center">
                         <?php 
